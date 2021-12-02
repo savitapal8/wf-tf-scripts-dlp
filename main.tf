@@ -75,9 +75,9 @@ resource "google_bigquery_dataset" "dlp" {
     environment = "dev" 
     created = "20211124" 
   }
- 
-  encryption {
-      default_kms_key_name = "projects/airline1-sabre-wolverine/locations/us/keyRings/savita-keyring-us/cryptoKeys/savita-key-us"
+  
+   default_encryption_configuration {
+    kms_key_name = "projects/airline1-sabre-wolverine/locations/us/keyRings/savita-keyring-us/cryptoKeys/savita-key-us"
   }
 }
 
