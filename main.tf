@@ -63,24 +63,8 @@ resource "google_data_loss_prevention_inspect_template" "inspect_example" {
 
 # Create the BigQuery dataset resource to store DLP scan outputs 
 resource "google_bigquery_dataset" "dlp" {
-  dataset_id   = "demo_bqdataset"  
+  dataset_id   = "my-dev-appid-strg-demo-bqdataset" 
   project      = "airline1-sabre-wolverine"
-}
-
-# Grant data access to a group of users
-/*
-resource "google_bigquery_dataset_iam_member" "editor" {
-  dataset_id = google_bigquery_dataset.dlp.dataset_id
-  role       = "roles/bigquery.dataViewer"
-  member     = "group:<group_id>@wellsfargo.com"
-}
-*/
-
-resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
-  parent       = "projects/airline1-sabre-wolverine/locations/us-central1"
-  description  = "Weekly scan on BQ table"
-  display_name = "my-dev-appid-strg-demo-dlpjob"
-  
    labels = {
     owner = "hybridenv"
     application_division = "pci"
@@ -95,6 +79,22 @@ resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
   encryption {
       default_kms_key_name = "projects/airline1-sabre-wolverine/locations/us/keyRings/savita-keyring-us/cryptoKeys/savita-key-us"
   }
+}
+
+# Grant data access to a group of users
+/*
+resource "google_bigquery_dataset_iam_member" "editor" {
+  dataset_id = google_bigquery_dataset.dlp.dataset_id
+  role       = "roles/bigquery.dataViewer"
+  member     = "group:<group_id>@wellsfargo.com"
+}
+*/
+
+resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
+  parent       = "projects/airline1-sabre-wolverine/locations/us-central1"
+  description  = "Weekly scan on BQ table"
+  display_name = "my-dev-appid-strg-demo-dlpjob" 
+  
  
   triggers {
     schedule {
