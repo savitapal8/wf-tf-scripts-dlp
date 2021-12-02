@@ -79,11 +79,26 @@ resource "google_bigquery_dataset_iam_member" "editor" {
 resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
   parent       = "projects/airline1-sabre-wolverine/locations/us-central1"
   description  = "Weekly scan on BQ table"
-  display_name = "demo-dlpjob"
-
+  display_name = "my-dev-appid-strg-demo-dlpjob"
+  
+   labels = {
+    owner = "hybridenv"
+    application_division = "pci"
+    application_name = "app1"
+    application_role = "auth"
+    au = "0223092"
+    gcp_region = "us" 
+    environment = "dev" 
+    created = "20211124" 
+  }
+ 
+  encryption {
+      default_kms_key_name = "projects/airline1-sabre-wolverine/locations/us/keyRings/savita-keyring-us/cryptoKeys/savita-key-us"
+  }
+ 
   triggers {
     schedule {
-      recurrence_period_duration = "604800"
+      recurrence_period_duration = "604800s"
     }
   }
 
@@ -94,7 +109,7 @@ resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
         output_config {
           table {
             project_id = "airline1-sabre-wolverine"
-            dataset_id = "" #google_bigquery_dataset.dlp.id
+            dataset_id = google_bigquery_dataset.dlp.id
             #table_id   = "<dlp_findings_table_name>"
           }
         }
