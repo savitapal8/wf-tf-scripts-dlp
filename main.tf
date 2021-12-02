@@ -83,7 +83,7 @@ resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
 
   triggers {
     schedule {
-      recurrence_period_duration = "604800s"
+      recurrence_period_duration = "604800"
     }
   }
 
@@ -94,7 +94,7 @@ resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
         output_config {
           table {
             project_id = "airline1-sabre-wolverine"
-            dataset_id = google_bigquery_dataset.dlp.id
+            dataset_id = "" #google_bigquery_dataset.dlp.id
             #table_id   = "<dlp_findings_table_name>"
           }
         }
