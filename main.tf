@@ -63,7 +63,7 @@ resource "google_data_loss_prevention_inspect_template" "inspect_example" {
 
 # Create the BigQuery dataset resource to store DLP scan outputs 
 resource "google_bigquery_dataset" "dlp" {
-  dataset_id   = "my-dev-appid-strg-demo-bqds" 
+  dataset_id   = "my_dev_appid_strg_demo_bqds" 
   project      = "airline1-sabre-wolverine"
    labels = {
     owner = "hybridenv"
