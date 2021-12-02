@@ -1,8 +1,6 @@
 #export GOOGLE_APPLICATION_CREDENTIALS="./secret.json"
 
 provider "google" {
-#access_token = var.access_token
-credentials = file("./secret.json")
 }
 
 # DLP Inspect SA
