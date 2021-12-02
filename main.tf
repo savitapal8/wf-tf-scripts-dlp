@@ -97,9 +97,16 @@ resource "google_data_loss_prevention_job_trigger" "bq_job_example" {
             #table_id   = "<dlp_findings_table_name>"
           }
         }
-      }
-      
+      }    
        
        }
+
+      storage_config {
+          cloud_storage_options {
+              file_set {
+                  url = "gs://my_bucket_df/"
+              }
+          }
+      }
     }
 }
