@@ -1,3 +1,10 @@
+#export GOOGLE_APPLICATION_CREDENTIALS="./secret.json"
+
+provider "google" {
+#access_token = var.access_token
+credentials = file("./secret.json")
+}
+
 # DLP Inspect SA
 resource "google_service_account" "dlp_inspect_sa" {
  account_id   = "dlp-inspect-sa"
@@ -38,23 +45,21 @@ resource "google_data_loss_prevention_inspect_template" "inspect_example" {
 
  inspect_config {
    #Rule to increase likelihood to custom ID if found 30 characters from CID keyword.
+    info_types {
+        name = "EMAIL_ADDRESS"
+    }
    rule_set {
-     info_types {
-       name = "CUSTOM_ID"
-     }
-     rules {
-       hotword_rule {
-         hotword_regex {
-           pattern = "CID*"
-         }
-         proximity {
-           window_before = 30
-         }
-         likelihood_adjustment {
-           fixed_likelihood = "VERY_LIKELY"
-         }
-       }
-     }
+      info_types {
+                name = "EMAIL_ADDRESS"
+            }
+            rules {
+                exclusion_rule {
+                    regex {
+                        pattern = ".+@example.com"
+                    }
+                    matching_type = "MATCHING_TYPE_FULL_MATCH"
+                }
+            }
    }
  }
 }
